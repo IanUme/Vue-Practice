@@ -1,10 +1,110 @@
 <html>
+
 <head>
-    <title>Day two testing</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <title>Vote on stories w/emjois</title>
 </head>
 
 <body>
-    Hi guys I'm empty!
+    <div class="container">
+        <div class="form-group" style="margin-bottom:3em">
+            <h2>Add new story</h2>
+            <input v-model="new_writer" class="form-control" placeholder="Writer">
+            <input v-model="new_story" class="form-control" placeholder="Story">
+            <button v-on:click="add_story">Add Story</button>
+        </div>
+
+        <h1>Please vote for your favorite stories</h1>
+        <ul class="list-group">
+            <li v-for="story in stories" class="list-group-item">
+                <i v-on:click="upVote(story.id)" class="em em---1"></i>
+                <i v-on:click="downVote(story.id)" class="em em--1"></i> {{ story.writer }} said
+                "{{ story.plot }}"
+            </li>
+        </ul>
+
+
+        <h1>Stories by popularity!</h1>
+        <ul class="list-group">
+            <li v-for="story in orderedStories" class="list-group-item">
+
+                {{ story.writer }} said "{{ story.plot }}" and upvoted {{ story.upvotes }} times.
+            </li>
+        </ul>
+        <button @click="order = order * -1">Reverse Order</button>
+        <pre>
+      {{ $data }}
+  </pre>
+    </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '.container',
+        data: {
+            stories: [{
+                    plot: "I crashed my car today!",
+                    writer: "Alex",
+                    upvotes: 5,
+                    id: 0
+                },
+                {
+                    plot: "Yesterday, someone stole my bag!",
+                    writer: "John",
+                    upvotes: 10,
+                    id: 1
+                },
+                {
+                    plot: "Someone ate my chocolate...",
+                    writer: "John",
+                    upvotes: 15,
+                    id: 2
+                },
+                {
+                    plot: "I ate someone's chocolate!",
+                    writer: "Alex",
+                    upvotes: 20,
+                    id: 3
+                },
+            ],
+            order: 1,
+            new_writer: '',
+            new_story: ''
+        },
+        methods: {
+            upVote: function(id) {
+                this.stories.forEach(function (element) {
+                    if (element.id == id) element.upvotes++;
+                })
+            },
+            downVote: function(id) {
+                this.stories.forEach(function (element) {
+                    if (element.id == id) element.upvotes--;
+                })
+            },
+            add_story: function () {
+                console.log("adding new story");
+                var p = this.new_story === '' ? 'Empty plot' : this.new_story;
+                var w = this.new_writer === '' ? 'Empty writer' : this.new_writer;
+                this.stories.push({
+                    plot: p,
+                    writer: w,
+                    upvotes: 0,
+                    id: this.stories.length
+                });
+            }
+        },
+
+        computed: {
+            orderedStories: function () {
+                var order = this.order;
+                return this.stories.concat().sort(function (a, b) {
+                    return (a.upvotes - b.upvotes) * order;
+                })
+            }
+        }
+    })
+</script>
 
 </html>
