@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue</title>
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.css" rel="stylesheet">
+	<style>
+		*{
+			font-family: 'Source Sans Pro'
+		}
+        .card { margin-bottom: 30px;
+                margin-top: 10px }
+
+	</style>
+</head>
+<body>
+
+<div id="root">
+<div class="columns">
+  	<div class="column is-one-third">
+		<card title="First card" body="This is a card from my friend Bulma"></card>
+
+        <card title="Second card" body ="How do I look friend?"></card>
+
+        <card title="Third card" body ="I'm the last card! Don't delete me!"></card>
+	</div>
+</div>
+</div>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.js"></script>
+
+<script type="text/javascript">
+    Vue.component('card', {
+	props: ['title', 'body'],
+	template: `
+			<div class="card" v-show="isVisible">
+			  <header class="card-header">
+			    <p class="card-header-title">
+			      {{title}}
+			    </p>
+			    <a class="card-header-icon">
+			      <span class="icon">
+			        <i class="fa fa-angle-down"></i>
+			      </span>
+			    </a>
+			  </header>
+			  <div class="card-content">
+			    <div class="content">
+			      {{body}}
+			      <br>
+			    </div>
+			  </div>
+			  <footer class="card-footer">
+			    <a class="card-footer-item" @click="isVisible = !isVisible" >Delete</a>
+			  </footer>
+			</div>
+	`,
+	data() {
+		return { isVisible:true}
+	}
+})
+
+new Vue({
+	el: '#root'
+})
+</script>
+
+</html>
