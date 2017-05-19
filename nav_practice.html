@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <title>Tabs practice</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="nav">
+            <div class="nav-right nav-menu">
+                <a class="nav-item">Contact</a>
+                <a class="nav-item">Login</a>
+            </div>
+        </nav>
+
+        <container>
+            <h1 class="title" style="text-align: center; padding-bottom: 20px">A Beginner's Start!</h1>
+        </container>
+
+        <article class="message is-danger">
+            <div class="message-body">
+                Warning! I have absolutely no clue what I'm doing. Please don't copy me because something is surely broken that I haven't
+                figured out yet! That's your one and only warning! Wow I need a lot of text to be multi-lined on this screen.
+                Now that's your last warning!
+            </div>
+        </article>
+
+        <div id="root">
+            <tabs>
+                <tab name="Tab 1" :selected="true">
+                    <h1>Here is the content for tab 1</h1>
+                    <div class="columns">
+                        
+                    <article class="message is-info" style="margin-top: 40px">
+                        <div class="message-body">
+                            I have an info box wohooo!
+                        </div>
+                    </article>
+                    </div>
+                </tab>
+
+                <tab name="Tab 2">
+                    <h1>Here is the content for tab2 2</h1>
+                </tab>
+
+                <tab name="Tab 3">
+                    <h1>Here is the content for tab 3</h1>
+                    <h2>What <strong>else</strong> can I put here</h2>
+                </tab>
+            </tabs>
+        </div>
+
+
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.js"></script>
+<script type="text/javascript">
+    Vue.component('tabs', {
+        template: `
+        <div>
+            <div class="tabs">
+                <ul>
+                    <li v-for="tab in tabs" :class="{ 'is-active': tab.isActive }">
+                        <a :href="tab.href" @click="selectTab(tab)">{{ tab.name }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tabs-details">
+                <slot></slot>
+            </div>
+        </div>
+         `,
+        data() {
+            return {
+                tabs: []
+            };
+        },
+        created() {
+            this.tabs = this.$children;
+        },
+        methods: {
+            selectTab(selectedTab) {
+                this.tabs.forEach(tab => {
+                    tab.isActive = (tab.href == selectedTab.href);
+                });
+            }
+        }
+    });
+
+    Vue.component('tab', {
+        template: `
+        <div v-show="isActive"><slot></slot></div>
+        `,
+        props: {
+            name: {
+                required: true
+            },
+            selected: {
+                default: false
+            }
+        },
+        data() {
+            return {
+                isActive: false
+            };
+        },
+        computed: {
+            href() {
+                return '#' + this.name.toLowerCase().replace(/ /g, '-');
+            }
+        },
+        mounted() {
+            this.isActive = this.selected;
+        },
+    });
+
+    new Vue({
+        el: '.container'
+    });
+</script>
+
+</html>
