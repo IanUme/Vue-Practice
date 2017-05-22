@@ -26,22 +26,21 @@
             </div>
         </article>
 
-        <div id="root">
             <tabs>
                 <tab name="Tab 1" :selected="true">
                     <h1>Here is the content for tab 1</h1>
-                    <div class="columns">
-                        
-                    <article class="message is-info" style="margin-top: 40px">
-                        <div class="message-body">
-                            I have an info box wohooo!
-                        </div>
-                    </article>
-                    </div>
+                    <textarea v-model="inputText" placeholder="Add text to me" rows="15" cols="120">
+                    </textarea>
+                    <p><pre>{{ inputText }}</pre></p>
+                    <p>Number of times 'me' is included: {{ meCount }}</p>
+                    <p>Number of times 'you' is included: {{ youCount }}</p>
                 </tab>
 
                 <tab name="Tab 2">
-                    <h1>Here is the content for tab2 2</h1>
+                    <p>Here is the text from tab1</p>
+                    <p>
+                        <pre><strong>{{ inputText }}</strong></pre>
+                    </p>
                 </tab>
 
                 <tab name="Tab 3">
@@ -50,9 +49,6 @@
                 </tab>
             </tabs>
         </div>
-
-
-    </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.js"></script>
 <script type="text/javascript">
@@ -116,7 +112,22 @@
     });
 
     new Vue({
-        el: '.container'
+        el: '.container',
+        data: {
+            inputText: '',
+            meCount: '',
+
+        },
+        computed: {
+            meCount: function() {
+                console.log("calling statstext returning with: " + (this.inputText.match(/me/g) || []).length)
+                return (this.inputText.match(/me/g) || []).length;
+            },
+            youCount: function() {
+                return (this.inputText.match(/you/g) || []).length;
+            },
+            
+        }
     });
 </script>
 
