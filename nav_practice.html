@@ -3,6 +3,7 @@
 <head>
     <title>Tabs practice</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -15,7 +16,7 @@
         </nav>
 
         <container>
-            <h1 class="title" style="text-align: center; padding-bottom: 20px">A Beginner's Start!</h1>
+            <h1 class="title is-2" id="main-title">A Beginner's Start!</h1>
         </container>
 
         <article class="message is-danger">
@@ -27,108 +28,37 @@
         </article>
 
             <tabs>
-                <tab name="Tab 1" :selected="true">
+                <tab name="Input" :selected="true">
                     <h1>Here is the content for tab 1</h1>
                     <textarea v-model="inputText" placeholder="Add text to me" rows="15" cols="120">
                     </textarea>
-                    <p><pre>{{ inputText }}</pre></p>
-                    <p>Number of times 'me' is included: {{ meCount }}</p>
-                    <p>Number of times 'you' is included: {{ youCount }}</p>
                 </tab>
 
-                <tab name="Tab 2">
+                <tab name="View">
                     <p>Here is the text from tab1</p>
                     <p>
-                        <pre><strong>{{ inputText }}</strong></pre>
+                        <pre>{{ inputText }}</pre>
                     </p>
                 </tab>
 
-                <tab name="Tab 3">
+                <tab name="Worthless">
                     <h1>Here is the content for tab 3</h1>
                     <h2>What <strong>else</strong> can I put here</h2>
                 </tab>
             </tabs>
+
+            <hr></hr>
+            <div id="info-area">
+                <h3 class="title is-3 level-left">Info and stats</h3>
+                <pre>{{ inputText }}</pre>
+                    <p>Number of times 'me' is included: {{ meCount }}</p>
+                    <p>Number of times 'you' is included: {{ youCount }}</p>
+            </div>
         </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.js"></script>
-<script type="text/javascript">
-    Vue.component('tabs', {
-        template: `
-        <div>
-            <div class="tabs">
-                <ul>
-                    <li v-for="tab in tabs" :class="{ 'is-active': tab.isActive }">
-                        <a :href="tab.href" @click="selectTab(tab)">{{ tab.name }}</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tabs-details">
-                <slot></slot>
-            </div>
-        </div>
-         `,
-        data() {
-            return {
-                tabs: []
-            };
-        },
-        created() {
-            this.tabs = this.$children;
-        },
-        methods: {
-            selectTab(selectedTab) {
-                this.tabs.forEach(tab => {
-                    tab.isActive = (tab.href == selectedTab.href);
-                });
-            }
-        }
-    });
-
-    Vue.component('tab', {
-        template: `
-        <div v-show="isActive"><slot></slot></div>
-        `,
-        props: {
-            name: {
-                required: true
-            },
-            selected: {
-                default: false
-            }
-        },
-        data() {
-            return {
-                isActive: false
-            };
-        },
-        computed: {
-            href() {
-                return '#' + this.name.toLowerCase().replace(/ /g, '-');
-            }
-        },
-        mounted() {
-            this.isActive = this.selected;
-        },
-    });
-
-    new Vue({
-        el: '.container',
-        data: {
-            inputText: '',
-            meCount: '',
-
-        },
-        computed: {
-            meCount: function() {
-                console.log("calling statstext returning with: " + (this.inputText.match(/me/g) || []).length)
-                return (this.inputText.match(/me/g) || []).length;
-            },
-            youCount: function() {
-                return (this.inputText.match(/you/g) || []).length;
-            },
-            
-        }
-    });
+<script src="js/nav-practice.js" type="text/javascript">
+    
 </script>
 
 </html>
