@@ -1,6 +1,11 @@
 #main-title {
     text-align: center; 
-    padding-bottom: 20px;
+    padding-bottom: 5px;
+}
+
+#secondary-title {
+    text-align: center;
+    padding-bottom: 15px;
 }
 
 #info-area {
